@@ -1,5 +1,6 @@
+# app.py
+import streamlit as st
 import os
-import sys
 import google.generativeai as genai
 from PIL import Image
 from dotenv import load_dotenv
@@ -7,7 +8,9 @@ from dotenv import load_dotenv
 # Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
 
-# O prompt que definimos anteriormente
+# --- Configuração do Gemini e Prompt (mesmo de antes) ---
+
+# O prompt que instrui o modelo
 PROMPT_TEMPLATE = """
 Você é um especialista em segurança da informação e arquiteto de soluções, especializado em modelagem de ameaças (Threat Modeling).
 
@@ -65,40 +68,64 @@ Apresente o resultado em formato Markdown, seguindo estritamente esta estrutura:
 Analise a imagem fornecida e gere o relatório.
 """
 
-def analyze_architecture(image_path: str):
+def analyze_architecture(image_data):
     """
     Analisa uma imagem de arquitetura de sistemas usando o Gemini
     e retorna um relatório de ameaças STRIDE.
+
+    Argumentos:
+        image_data: Um objeto de imagem aberto (como o retornado pelo st.file_uploader).
     """
-    api_key = os.get("GEMINI_API_KEY")
+    api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
-        raise ValueError("Chave da API do Gemini não encontrada. Defina a variável de ambiente GEMINI_API_KEY.")
+        # Mostra um erro na própria interface do Streamlit
+        st.error("Chave da API do Gemini não encontrada. Por favor, configure seu arquivo .env ou as secrets do Streamlit.")
+        return None
 
     genai.configure(api_key=api_key)
+    
+    # Prepara a imagem e o modelo
+    img = Image.open(image_data)
+    model = genai.GenerativeModel('gemini-2.5-flash')
 
     try:
-        img = Image.open(image_path)
-    except FileNotFoundError:
-        print(f"Erro: O arquivo de imagem '{image_path}' não foi encontrado.")
-        return
+        # Gera o conteúdo
+        response = model.generate_content([PROMPT_TEMPLATE, img])
+        return response.text
+    except Exception as e:
+        st.error(f"Ocorreu um erro ao chamar a API do Gemini: {e}")
+        return None
 
-    # Inicializa o modelo multimodal
-    model = genai.GenerativeModel('gemini-1.5-flash')
+# --- Interface do Streamlit ---
 
-    print("Analisando a arquitetura... Isso pode levar alguns segundos.")
+# Configuração da página (título na aba do navegador e layout)
+st.set_page_config(page_title="Arch-Sec-Analyst", layout="wide")
 
-    # Envia o prompt e a imagem para a API
-    response = model.generate_content([PROMPT_TEMPLATE, img], stream=True)
-    response.resolve()
+# Título principal da aplicação
+st.title("🤖 Arch-Sec-Analyst com Gemini")
 
-    # Salva o relatório em um arquivo Markdown
-    report_filename = f"report_{os.path.basename(image_path)}.md"
-    with open(report_filename, "w", encoding="utf-8") as f:
-        f.write(response.text)
+# Descrição
+st.write("Faça o upload de um diagrama de arquitetura de sistemas para receber uma análise de ameaças automatizada usando a metodologia STRIDE.")
 
-    print("\n--- Relatório Gerado ---")
-    print(response.text)
-    print(f"\nRelatório completo salvo em: {report_filename}")
+# Componente para upload de arquivo
+uploaded_file = st.file_uploader(
+    "Escolha a imagem da arquitetura...",
+    type=["png", "jpg", "jpeg"]
+)
 
-if __name__ == "__main__":
-    analyze_architecture("azure.png")
+# Verifica se um arquivo foi enviado
+if uploaded_file is not None:
+    # Mostra a imagem enviada
+    st.image(uploaded_file, caption="Arquitetura Enviada", width=500)
+
+    # Adiciona um botão para iniciar a análise
+    if st.button("Analisar Arquitetura"):
+        # Mostra uma mensagem de "carregando" enquanto a análise ocorre
+        with st.spinner("O Gemini está analisando a imagem... Por favor, aguarde. Isso pode levar alguns segundos."):
+            report = analyze_architecture(uploaded_file)
+            
+            if report:
+                st.divider() # Adiciona uma linha divisória
+                st.subheader("Relatório de Análise de Ameaças - STRIDE")
+                # st.markdown() renderiza o texto em formato Markdown, que é o formato da nossa saída
+                st.markdown(report)
