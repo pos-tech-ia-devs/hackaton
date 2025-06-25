@@ -1,0 +1,65 @@
+{
+    "objects_detected": [],
+    "tags": [
+        {
+            "name": "text",
+            "confidence": 0.9990485906600952
+        },
+        {
+            "name": "diagram",
+            "confidence": 0.9661750793457031
+        },
+        {
+            "name": "screenshot",
+            "confidence": 0.9612945914268494
+        },
+        {
+            "name": "plot",
+            "confidence": 0.8410643339157104
+        },
+        {
+            "name": "design",
+            "confidence": 0.5667684674263
+        }
+    ],
+    "text_annotations": [
+        "2",
+        "Microsoft",
+        "Entra",
+        "Backend Systems",
+        "API Management",
+        "Workflow and",
+        "Azure services",
+        "...",
+        "Authentication",
+        "orchestration",
+        "A",
+        "1",
+        "3",
+        "4",
+        "5",
+        "HTTP",
+        "Saas services",
+        "API gateway",
+        "Logic Apps",
+        "--",
+        "----",
+        "Create",
+        "application",
+        "Publish interfaces",
+        "Web services",
+        "--",
+        "Publish interfaces",
+        "-------",
+        "Consume API",
+        "documentation",
+        "Developer portal",
+        "REST",
+        "Resource group",
+        "SOAP",
+        "A",
+        "Microsoft",
+        "Azure"
+    ],
+    "description": "diagram"
+}
