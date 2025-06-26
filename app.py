@@ -34,36 +34,42 @@ Apresente o resultado em formato Markdown, seguindo estritamente esta estrutura:
 *   **Componentes Afetados:** (Liste os componentes)
 *   **Explicação:** (Detalhe como a ameaça pode ocorrer)
 *   **Mitigação Sugerida:** (Sugira soluções como autenticação forte, mTLS, verificação de certificados, etc.)
+*   **Referencias:** (Inclua links para documentação ou melhores práticas, se possível)
 
 ### T - Tampering (Adulteração de Dados)
 *   **Ameaça:** (Descreva a ameaça de adulteração)
 *   **Componentes Afetados:** (Liste os fluxos de dados, bancos de dados, etc.)
 *   **Explicação:** (Detalhe como os dados podem ser alterados em trânsito ou em repouso)
 *   **Mitigação Sugerida:** (Sugira soluções como HTTPS/TLS, assinaturas digitais, checksums, controle de integridade de arquivos, etc.)
+*   **Referencias:** (Inclua links para documentação ou melhores práticas, se possível)
 
 ### R - Repudiation (Repúdio)
 *   **Ameaça:** (Descreva a ameaça de repúdio)
 *   **Componentes Afetados:** (Liste os componentes responsáveis por ações críticas)
 *   **Explicação:** (Detalhe como um ator poderia negar ter realizado uma ação)
 *   **Mitigação Sugerida:** (Sugira soluções como logs de auditoria detalhados e seguros, assinaturas digitais, etc.)
+*   **Referencias:** (Inclua links para documentação ou melhores práticas, se possível)
 
 ### I - Information Disclosure (Divulgação de Informação)
 *   **Ameaça:** (Descreva a ameaça de vazamento de dados)
 *   **Componentes Afetados:** (Liste componentes que armazenam ou transmitem dados sensíveis)
 *   **Explicação:** (Detalhe como dados sensíveis podem ser expostos)
 *   **Mitigação Sugerida:** (Sugira soluções como criptografia em trânsito e em repouso, controle de acesso granular, tratamento de erros seguro, etc.)
+*   **Referencias:** (Inclua links para documentação ou melhores práticas, se possível)
 
 ### D - Denial of Service (Negação de Serviço)
 *   **Ameaça:** (Descreva a ameaça de negação de serviço)
 *   **Componentes Afetados:** (Identifique pontos únicos de falha ou componentes expostos)
 *   **Explicação:** (Detalhe como um serviço pode ser tornado indisponível)
 *   **Mitigação Sugerida:** (Sugira soluções como load balancers, auto-scaling, rate limiting, WAF, etc.)
+*   **Referencias:** (Inclua links para documentação ou melhores práticas, se possível)
 
 ### E - Elevation of Privilege (Elevação de Privilégio)
 *   **Ameaça:** (Descreva a ameaça de elevação de privilégio)
 *   **Componentes Afetados:** (Liste os componentes que gerenciam autorização)
 *   **Explicação:** (Detalhe como um usuário com poucos privilégios poderia obter mais acesso)
 *   **Mitigação Sugerida:** (Sugira soluções como o Princípio do Menor Privilégio, validação rigorosa de autorização em cada endpoint, etc.)
+*   **Referencias:** (Inclua links para documentação ou melhores práticas, se possível)
 
 Analise a imagem fornecida e gere o relatório.
 """
