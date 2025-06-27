@@ -1,7 +1,7 @@
-from hackaton.core import analyze_architecture
+from core import analyze_architecture
 
 # Example usage
-image_path = "aws.png"
+image_path = "resources/aws.png"
 try:
     report = analyze_architecture(image_path)
     print(report)
