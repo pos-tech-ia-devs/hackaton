@@ -2,7 +2,9 @@ from PIL import Image
 import base64
 import io
 from langchain_community.tools import tool
-from src.helpers import LLM, format_json
+from pathlib import Path
+from src.helpers.LLM import LLM
+from src.helpers.format_json import format_json
 from langchain_core.messages import HumanMessage, SystemMessage
 
 
@@ -16,35 +18,40 @@ def convert_base64_image(img):
 
 
 @tool
-def analyze_image(image_path):
+def analyze_image(image_path: str) -> str:
     """
-    You are an image analyzer, your task is to receive the path of an image and return a JSON with information about the image.
-    The image is a system architecture image, and you should analyze the image and return a JSON with information about the image.
-
-    The JSON should have the following structure:
+    Analyzes a system architecture diagram image and returns a JSON representation.
+    This tool takes the file path of an image, analyzes its components, containers,
+    and data flows, and returns a structured JSON object describing the architecture.
     Args:
       image_path(str): The path of the image to be analyzed.
-
     Returns:
-      response(str): A JSON with information about the image.
+      str: A JSON string with information about the image, or an error message.
     """
-    img = Image.open(image_path)
-    image_uri = convert_base64_image(img)
-    model = LLM.load_ollama_model("gemini-2.5-pro")
+    try:
+        img = Image.open(image_path)
+    except FileNotFoundError:
+        return f"Error: Image file not found at path: {image_path}"
+    except Exception as e:
+        return f"Error: Could not open or process the image. Details: {e}"
 
-    with open("./prompts/analyze_image.md", "r") as file:
-        prompt = file.read()
+    image_uri = convert_base64_image(img)
+    model = LLM.call_gemini_model("gemini-2.5-pro")
+
+    try:
+        script_dir = Path(__file__).parent
+        prompt_path = script_dir / "prompts" / "analyze_image.md"
+        with open(prompt_path, "r") as file:
+            prompt = file.read()
+    except FileNotFoundError:
+        return "Error: The system prompt file 'analyze_image.md' was not found in the expected location."
 
     messages = [
         SystemMessage(content=prompt),
-        HumanMessage(
-            content=[
-                {"type": "image_url", "image_url": image_uri},
-            ]
-        ),
+        HumanMessage(content=[{"type": "image_url", "image_url": image_uri}]),
     ]
 
     response = model.invoke(messages)
-
-    json = format_json(response)
-    return json
+    print(f"Response: {response}")
+    json_response = format_json(response)
+    return json_response
