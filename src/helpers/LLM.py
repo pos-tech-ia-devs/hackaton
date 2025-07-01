@@ -9,7 +9,7 @@ load_dotenv()
 
 class LLM:
     @staticmethod
-    def load_ollama_model(model_name, temperature=0):
+    def call_gemini_model(model_name, temperature=0):
         model = ChatGoogleGenerativeAI(
             model=model_name,
             base_url=os.getenv("GEMINI_API_KEY"),

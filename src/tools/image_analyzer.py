@@ -30,7 +30,7 @@ def analyze_image(image_path):
     """
     img = Image.open(image_path)
     image_uri = convert_base64_image(img)
-    model = LLM.load_ollama_model("gemini-2.5-flash")
+    model = LLM.load_ollama_model("gemini-2.5-pro")
 
     with open("./prompts/analyze_image.md", "r") as file:
         prompt = file.read()
