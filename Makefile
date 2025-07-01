@@ -1,3 +1,6 @@
+run:
+	python3 -m src.agent
+
 .PHONY: install
 LIBS=
 install:
@@ -9,3 +12,4 @@ install:
 	@echo "--> Instalando bibliotecas: $(LIBS)..."
 	@pip install $(LIBS) && pip freeze > requirements.txt
 	@echo "--> Instalação concluída e requirements.txt atualizado com sucesso."
+
