@@ -52,6 +52,5 @@ def analyze_image(image_path: str) -> str:
     ]
 
     response = model.invoke(messages)
-    print(f"Response: {response}")
-    json_response = format_json(response)
+    json_response = format_json(response.content)
     return json_response

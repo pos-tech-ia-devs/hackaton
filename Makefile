@@ -1,5 +1,5 @@
 run:
-	python3 -m src.agent
+	python3 -m src.main
 
 .PHONY: install
 LIBS=
