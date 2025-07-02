@@ -28,11 +28,15 @@ def run_agent(image_path):
         )
 
         toolkit = get_toolkit()
-        agent_llm = LLM.call_gemini_model("gemini-2.5-flash")
+        agent_llm = LLM.call_open_ai_model(temperature=0)
         agent = create_openai_functions_agent(agent_llm, toolkit, prompt)
         agent_executor = AgentExecutor(agent=agent, tools=toolkit, verbose=True)
 
-        response = agent_executor.invoke({"input": image_path})
+        response = agent_executor.invoke(
+            {
+                "input": f"Analise a imagem desse caminho: {image_path} e retorne um relatório stride apontando vunerabilidades e ameaças."
+            }
+        )
         print(response)
     except Exception as e:
         print(f"An error occurred: {e}")

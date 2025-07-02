@@ -1,6 +1,9 @@
 run:
 	python3 -m src.main
 
+install-requirements:
+	pip install -r requirements.txt
+
 .PHONY: install
 LIBS=
 install:
