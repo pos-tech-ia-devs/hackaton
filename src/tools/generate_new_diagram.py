@@ -41,4 +41,4 @@ def generate_new_diagram(stride_report: str, architecture_diagram_path: str) -> 
     ]
     model = LLM.call_gemini_model("gemini-2.5-pro")
     response = model.invoke(messages)
-    return response["output"]
+    return response

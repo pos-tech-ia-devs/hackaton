@@ -49,7 +49,7 @@ if uploaded_file is not None:
 
     if st.button("Analisar Arquitetura"):
         with st.spinner(
-            "O Gemini está analisando a imagem... Por favor, aguarde. Isso pode levar alguns segundos."
+            "Analisando a imagem e procurando vulnerabilidades... Por favor, aguarde. Isso pode levar alguns minutos."
         ):
             file_path = save_uploaded_file(uploaded_file)
             report = run_agent(file_path, api_key=gemini_key_value)
