@@ -12,4 +12,5 @@ You are an expert system architecture analyst. Your primary goal is to use the a
   <description>You have access to the following tools:</description>
   <tool name="analyze_image" />
   <tool name="stride" />
+  <tool name="generate_new_diagram" />
 </toolset>

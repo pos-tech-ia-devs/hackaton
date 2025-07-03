@@ -20,7 +20,7 @@ def stride(architecture_json: str):
     relevance to the specific architecture, and suggests actionable mitigations.
 
     Args:
-        architecture_json (dict): A dictionary representing the system
+        architecture_json (str): A JSON string representing the system
             architecture. It must conform to the specified graph structure,
             containing 'nodes' and 'edges' keys.
 

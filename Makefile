@@ -16,3 +16,5 @@ install:
 	@pip install $(LIBS) && pip freeze > requirements.txt
 	@echo "--> Instalação concluída e requirements.txt atualizado com sucesso."
 
+streamlit:
+	python3 -m streamlit run src/view.py

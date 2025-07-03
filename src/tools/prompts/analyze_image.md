@@ -80,4 +80,6 @@ Strictly follow this four-stage analytical process for each diagram
   <rule name="Exhaustive_Capture">ALL visual elements — containers, components, actors, labels, and flow markers — must be captured in the JSON.</rule>
   <rule name="Connection_Specificity">Edges must connect the most granular nodes possible, not their containers, unless the arrow explicitly points to the container's border.</rule>
   <rule name="ID_Consistency">All `id`s referenced in `edges` and in the `parent` property must exist in the `nodes` list.</rule>
+  <rule name="Characters">Ensure proper escaping of characters** such as newlines (`\n`), quotes (`"`), and backslashes (`\`).</rule>
+  <rule name="Nullable_Properties">Never returns `None`, if necessary returning, returns like string, eg: "None"</rule>
 </rules>

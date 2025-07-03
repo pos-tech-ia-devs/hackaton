@@ -26,7 +26,7 @@ def analyze_image(image_path: str) -> str:
     Args:
       image_path(str): The path of the image to be analyzed.
     Returns:
-      str: A JSON string with information about the image, or an error message.
+      str: A JSON string object with information about the image, or an error message.
     """
     try:
         img = Image.open(image_path)
