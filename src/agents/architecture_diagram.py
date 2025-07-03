@@ -32,7 +32,7 @@ def run_agent(image_path: str, api_key: str | None = None):
 
         response = agent_executor.invoke(
             {
-                "input": f"Analise a imagem desse caminho: {image_path}, retorne um relatório stride apontando vulnerabilidades e ameaças, além de um novo diagrama corrigindo as vulnerabilidades encontradas."
+                "input": f"Analise a imagem desse caminho: {image_path}, retorne um relatório stride apontando vulnerabilidades e ameaças, também um novo diagrama corrigindo as vulnerabilidades encontradas."
             }
         )
         print(response)
