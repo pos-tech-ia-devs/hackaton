@@ -15,7 +15,7 @@ def get_prompt():
         return "Error: The system prompt file 'architecture_diagram.md' was not found in the expected location."
 
 
-def run_agent(image_path: str):
+def run_agent(image_path: str, api_key: str | None = None):
     try:
         orchestrator_prompt = get_prompt()
         prompt = ChatPromptTemplate.from_messages(
@@ -28,9 +28,11 @@ def run_agent(image_path: str):
         )
 
         toolkit = get_toolkit()
+
         agent_llm = LLM.call_gemini_model(
             model_name="gemini-2.5-flash",
             temperature=0,
+            api_key=api_key,
         )
         agent = create_tool_calling_agent(agent_llm, toolkit, prompt)
         agent_executor = AgentExecutor(agent=agent, tools=toolkit, verbose=True)

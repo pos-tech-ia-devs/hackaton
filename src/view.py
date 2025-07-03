@@ -12,12 +12,22 @@ st.write(
     "Faça o upload de um diagrama de arquitetura de sistemas para receber uma análise de ameaças automatizada usando a metodologia STRIDE."
 )
 
+with st.sidebar:
+    st.header("Configurações")
+
+    gemini_key_value = st.text_input(
+        "Insira sua api key do Gemini",
+        key="gemini_key_value",
+        type="password",
+        help="Insira sua chave de API do Gemini para autenticação. Você pode obter uma chave de API no console do Google Cloud.",
+        value=os.getenv("GEMINI_API_KEY"),
+    )
+
 uploaded_file = st.file_uploader(
     "Escolha a imagem da arquitetura...", type=["png", "jpg", "jpeg"]
 )
 
 temp_directory = "./temp"
-
 
 if uploaded_file is not None:
     st.image(uploaded_file, caption="Arquitetura Enviada", width=500)
@@ -42,11 +52,11 @@ if uploaded_file is not None:
             "O Gemini está analisando a imagem... Por favor, aguarde. Isso pode levar alguns segundos."
         ):
             file_path = save_uploaded_file(uploaded_file)
-            report = run_agent(file_path)
+            report = run_agent(file_path, api_key=gemini_key_value)
 
             if report:
                 st.divider()
                 st.subheader("Relatório de Análise de Ameaças - STRIDE")
                 st.markdown(report)
 
-            # shutil.rmtree(temp_directory, ignore_errors=True)  # Clean up temp directory
+            shutil.rmtree(temp_directory, ignore_errors=True)

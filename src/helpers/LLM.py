@@ -8,10 +8,11 @@ load_dotenv()
 
 class LLM:
     @staticmethod
-    def call_gemini_model(model_name, temperature=0):
+    def call_gemini_model(model_name, temperature=0, api_key=None):
+        gemini_api_key = api_key or os.getenv("GEMINI_API_KEY")
         model = ChatGoogleGenerativeAI(
             model=model_name,
-            google_api_key=os.getenv("GEMINI_API_KEY"),
+            google_api_key=gemini_api_key,
             temperature=temperature,
         )
         return model
