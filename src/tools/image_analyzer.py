@@ -1,20 +1,11 @@
 from PIL import Image
-import base64
-import io
 from langchain_community.tools import tool
-from pathlib import Path
 from src.helpers.LLM import LLM
 from src.helpers.format_json import format_json
+from src.helpers.get_prompt import get_prompt
+from src.helpers.convert_base64_image import convert_base64_image
 from langchain_core.messages import HumanMessage, SystemMessage
-
-
-def convert_base64_image(img):
-    buffered = io.BytesIO()
-    image_format = img.format or "PNG"
-    img.save(buffered, format=image_format)
-    img_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
-    image_uri = f"data:image/{image_format.lower()};base64,{img_base64}"
-    return image_uri
+from pathlib import Path
 
 
 @tool
@@ -38,14 +29,12 @@ def analyze_image(image_path: str) -> str:
     image_uri = convert_base64_image(img)
     model = LLM.call_gemini_model("gemini-2.5-pro")
 
-    try:
-        script_dir = Path(__file__).parent
-        prompt_path = script_dir / "prompts" / "analyze_image.md"
-        with open(prompt_path, "r") as file:
-            prompt = file.read()
-    except FileNotFoundError:
-        return "Error: The system prompt file 'analyze_image.md' was not found in the expected location."
+    prompt = get_prompt(
+        current_path=Path(__file__).parent, file_name="analyze_image.md"
+    )
 
+    if not prompt:
+        return "Error: The system prompt file 'analyze_image.md' was not found in the expected location."
     messages = [
         SystemMessage(content=prompt),
         HumanMessage(content=[{"type": "image_url", "image_url": image_uri}]),

@@ -1,7 +1,8 @@
 from langchain_community.tools import tool
 from langchain_core.messages import HumanMessage, SystemMessage
-from pathlib import Path
 from src.helpers.LLM import LLM
+from src.helpers.get_prompt import get_prompt
+from pathlib import Path
 
 
 @tool
@@ -30,14 +31,7 @@ def stride(architecture_json: str):
             suggested mitigations for each of the six STRIDE categories.
     """
 
-    try:
-        script_dir = Path(__file__).parent
-        prompt_path = script_dir / "prompts" / "stride.md"
-        with open(prompt_path, "r") as file:
-            prompt = file.read()
-    except FileNotFoundError:
-        return "Error: The system prompt file 'analyze_image.md' was not found in the expected location."
-
+    prompt = get_prompt(current_path=Path(__file__).parent, file_name="stride.md")
     messages = [
         SystemMessage(content=prompt),
         HumanMessage(content=architecture_json),

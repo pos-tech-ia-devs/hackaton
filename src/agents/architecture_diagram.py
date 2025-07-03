@@ -2,22 +2,15 @@ from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from src.tools.toolkit import get_toolkit
 from src.helpers.LLM import LLM
+from helpers.get_prompt import get_prompt
 from pathlib import Path
-
-
-def get_prompt():
-    try:
-        script_dir = Path(__file__).parent
-        prompt_path = script_dir / "prompts" / "architecture_diagram.md"
-        with open(prompt_path, "r") as file:
-            return file.read()
-    except FileNotFoundError:
-        return "Error: The system prompt file 'architecture_diagram.md' was not found in the expected location."
 
 
 def run_agent(image_path: str, api_key: str | None = None):
     try:
-        orchestrator_prompt = get_prompt()
+        orchestrator_prompt = get_prompt(
+            current_path=Path(__file__).parent, file_name="architecture_diagram.md"
+        )
         prompt = ChatPromptTemplate.from_messages(
             [
                 ("system", orchestrator_prompt),
@@ -39,7 +32,7 @@ def run_agent(image_path: str, api_key: str | None = None):
 
         response = agent_executor.invoke(
             {
-                "input": f"Analise a imagem desse caminho: {image_path}, retorne um relatório stride apontando vulnerabilidades e ameaças."
+                "input": f"Analise a imagem desse caminho: {image_path}, retorne um relatório stride apontando vulnerabilidades e ameaças, além de um novo diagrama corrigindo as vulnerabilidades encontradas."
             }
         )
         print(response)

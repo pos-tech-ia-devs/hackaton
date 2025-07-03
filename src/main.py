@@ -7,5 +7,5 @@ logging.basicConfig(
 
 
 if __name__ == "__main__":
-    image_path = "resources/aws.png"
+    image_path = "temp/4c180a9f-5347-46fe-93fd-31f879e6df79.png"
     run_agent(image_path)
