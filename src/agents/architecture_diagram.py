@@ -32,7 +32,14 @@ def run_agent(image_path: str, api_key: str | None = None):
 
         response = agent_executor.invoke(
             {
-                "input": f"Analise a imagem desse caminho: {image_path}, retorne um relatório stride apontando vulnerabilidades e ameaças, também um novo diagrama corrigindo as vulnerabilidades encontradas."
+                "input": f"""
+                    Perform the following security analysis on the provided image:
+
+                    1. First, analyze the architecture in the path diagram: {image_path}.
+                    2. Based on the analysis, generate a complete threat report using the STRIDE methodology.
+                    3. Next, create a remediation report detailing the mitigations for each vulnerability found.
+                    4. Finally, generate a new image diagram that incorporates all the proposed remediations.
+                    """
             }
         )
         if response.get("output"):

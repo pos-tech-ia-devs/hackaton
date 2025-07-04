@@ -12,8 +12,9 @@ These are the fundamental syntax rules extracted from the Mermaid.js documentati
 </description>
 
   <rule id="general">
-      - **Comments:** Start with `%%`. Example: `%% This is a comment`.
+      - **Comments:** Don't use any comment`.
       - **Theming:** Use `%%{init: { 'theme': 'base' } }%%` for theme control. Common themes include 'default', 'base', 'dark', 'forest', 'neutral'.
+      - **Remove parentheses**: Remove any parentheses, for example: if contains: "Centralized Log Storage (Immutable)", replace it with "Centralized Log Storage - Immutable"
   </rule>
 
   <rule id="flowchart">

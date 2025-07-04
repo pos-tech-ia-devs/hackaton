@@ -6,6 +6,8 @@ from src.helpers.convert_base64_image import convert_base64_image
 from PIL import Image
 from pathlib import Path
 import matplotlib.pyplot as plt
+import io, requests
+import base64
 import re
 
 
@@ -58,7 +60,7 @@ def generate_new_diagram_image(mermaid_diagram_code: str):
         mermaid_diagram_code (str): A string containing the Mermaid code for the new architecture diagram.
 
     Returns:
-        str: A new architecture diagram, if not exists will return "Ocorreu um erro ao gerar o diagrama".
+        bool: if the diagram was successfully generated
     """
 
     prompt = get_prompt(
@@ -69,7 +71,7 @@ def generate_new_diagram_image(mermaid_diagram_code: str):
     messages = [
         SystemMessage(content=prompt),
         HumanMessage(
-            content=f"Valide se o código mermaid a seguir é válido: {mermaid_diagram_code}, se não for aplique as correções necessárias e retorne o código corrigido."
+            content=f"Validate if the following mermaid code is valid: {mermaid_diagram_code}, if not apply the necessary corrections and only return the corrected code"
         ),
     ]
 
@@ -77,5 +79,29 @@ def generate_new_diagram_image(mermaid_diagram_code: str):
 
     model = LLM.call_gemini_model("gemini-2.5-flash")
     response = model.invoke(messages)
-    print(response)
-    return response
+    try:
+        content = response.content
+
+        regex = r"```mermaid\s*\n(.*?)\n```"
+        match = re.search(regex, content, re.DOTALL)
+        if match:
+            codigo_extraido = match.group(1)
+            content = codigo_extraido.strip()
+
+        graphbytes = content.encode("utf8")
+        base64_bytes = base64.urlsafe_b64encode(graphbytes)
+        base64_string = base64_bytes.decode("ascii")
+
+        image_uri = "https://mermaid.ink/img/" + base64_string
+        img = Image.open(io.BytesIO(requests.get(image_uri).content))
+
+        plt.figure(figsize=(10, 8))
+        plt.axis("off")
+        plt.imshow(img)
+        uri = "./temp/new_diagram.png"
+        plt.savefig(uri, bbox_inches="tight", pad_inches=0, dpi=600)
+        plt.close()
+
+        return True
+    except Exception as e:
+        return False

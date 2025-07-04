@@ -1,4 +1,4 @@
-from src.agents.architecture_diagram import run_agent
+from agents.architecture_diagram import run_agent
 import streamlit as st
 import os
 import uuid
@@ -59,4 +59,11 @@ if uploaded_file is not None:
                 st.subheader("Relatório de Análise de Ameaças - STRIDE")
                 st.markdown(report)
 
+                new_diagram_path = f"{temp_directory}/new_diagram.png"
+                if os.path.exists(new_diagram_path):
+                    st.image(
+                        new_diagram_path,
+                        caption="Novo Diagrama de Arquitetura",
+                        width=1000,
+                    )
             shutil.rmtree(temp_directory, ignore_errors=True)
