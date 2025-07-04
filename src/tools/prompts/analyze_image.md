@@ -14,25 +14,25 @@ The output MUST be a valid JSON array and nothing else. No text, explanations, o
 <thinking_instructions>
 Strictly follow this four-stage analytical process for each diagram
 
-    <step name="stage_1" description="Identification of Containers and Boundaries">
-      1.1. Analyze the layout to find all elements that function as containers or logical/physical boundaries. These are boxes (solid, dotted, dashed) that contain other items.
-      1.2. Common examples: Resource Groups, VPCs, Subnets, Availability Zones, Regions, Clusters (Kubernetes, ECS), Namespaces, or any box with a title that groups components.
-      1.3. Create a preliminary node for each container. The hierarchy between them (e.g., a Subnet inside a VPC) will be established in Stage 3.
-    </step>
-    <step name="stage_2" description="Identification of Atomic Components and Actors">
-      2.1. Identify all individual components (leaf nodes) that do not contain other items. Examples: Databases, Functions, VMs, Load Balancers, Queues, Topics, API Gateways, etc.
-      2.2. Identify all external actors to the system. Examples: User icons, "User", "Developer", "External System", "Partner API", or the concept of the "Internet" (usually a globe).
-      2.3. Create a preliminary node for each atomic component and actor.
-    </step>
-    <step name="stage_3" description="Construction of the Hierarchical Node Tree">
-      3.1. Finalize the `nodes` list. For each preliminary node from stages 1 and 2:
-          a. **id**: Assign a unique and stable ID (e.g., `node_01`).
-          b. **label**: Use the exact text from the item.
-          c. **parent**: Determine the `id` of the immediate container in which this node is visually contained. If a node is at the top level, its `parent` is `null`. This is the fundamental property for creating the hierarchy.
-          d. **properties**: Create an object for metadata:
-              - **type**: Infer the generic type of the node (`container`, `actor`, `compute`, `database`, `storage`, `network`, `security`, `messaging`, `workflow`, `analytics`, etc.).
-              - **provider**: If identifiable by icon or text, indicate the provider (`aws`, `azure`, `gcp`, `on-premise`, `kubernetes`, `generic`).
-              - **attributes**: An object for any other textual or visual details (e.g., `{ "sku": "Premium" }`, `{ "technology": "PostgreSQL" }`).
+  <step name="stage_1" description="Identification of Containers and Boundaries">
+    1.1. Analyze the layout to find all elements that function as containers or logical/physical boundaries. These are boxes (solid, dotted, dashed) that contain other items.
+    1.2. Common examples: Resource Groups, VPCs, Subnets, Availability Zones, Regions, Clusters (Kubernetes, ECS), Namespaces, or any box with a title that groups components.
+    1.3. Create a preliminary node for each container. The hierarchy between them (e.g., a Subnet inside a VPC) will be established in Stage 3.
+  </step>
+  <step name="stage_2" description="Identification of Atomic Components and Actors">
+    2.1. Identify all individual components (leaf nodes) that do not contain other items. Examples: Databases, Functions, VMs, Load Balancers, Queues, Topics, API Gateways, etc.
+    2.2. Identify all external actors to the system. Examples: User icons, "User", "Developer", "External System", "Partner API", or the concept of the "Internet" (usually a globe).
+    2.3. Create a preliminary node for each atomic component and actor.
+  </step>
+  <step name="stage_3" description="Construction of the Hierarchical Node Tree">
+    3.1. Finalize the `nodes` list. For each preliminary node from stages 1 and 2:
+        a. **id**: Assign a unique and stable ID (e.g., `node_01`).
+        b. **label**: Use the exact text from the item.
+        c. **parent**: Determine the `id` of the immediate container in which this node is visually contained. If a node is at the top level, its `parent` is `null`. This is the fundamental property for creating the hierarchy.
+        d. **properties**: Create an object for metadata:
+            - **type**: Infer the generic type of the node (`container`, `actor`, `compute`, `database`, `storage`, `network`, `security`, `messaging`, `workflow`, `analytics`, etc.).
+            - **provider**: If identifiable by icon or text, indicate the provider (`aws`, `azure`, `gcp`, `on-premise`, `kubernetes`, `generic`).
+            - **attributes**: An object for any other textual or visual details (e.g., `{ "sku": "Premium" }`, `{ "technology": "PostgreSQL" }`).
     </step>
     <step name="stage_4" description="Mapping of Edges and Data Flows">
       4.1. Identify all lines and arrows (`edges`) connecting the nodes. Edges should connect the most specific (atomic) nodes possible.

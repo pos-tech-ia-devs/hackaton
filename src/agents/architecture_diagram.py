@@ -35,8 +35,10 @@ def run_agent(image_path: str, api_key: str | None = None):
                 "input": f"Analise a imagem desse caminho: {image_path}, retorne um relatório stride apontando vulnerabilidades e ameaças, também um novo diagrama corrigindo as vulnerabilidades encontradas."
             }
         )
-        print(response)
-        return response["output"]
+        if response.get("output"):
+            return response["output"]
+        else:
+            print("No output found in the response.")
 
     except Exception as e:
         print(f"An error occurred: {e}")

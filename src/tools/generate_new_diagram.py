@@ -1,5 +1,3 @@
-import base64
-import io, requests
 from langchain_community.tools import tool
 from langchain_core.messages import HumanMessage, SystemMessage
 from src.helpers.LLM import LLM
