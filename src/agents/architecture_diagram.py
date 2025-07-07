@@ -1,12 +1,12 @@
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from src.tools.toolkit import get_toolkit
-from src.helpers.LLM import LLM
+from src.helpers.LLM import LLM, MODELS
 from helpers.get_prompt import get_prompt
 from pathlib import Path
 
 
-def run_agent(image_path: str, api_key: str | None = None):
+def run_agent(image_path: str, debug_mode: bool = False):
     try:
         orchestrator_prompt = get_prompt(
             current_path=Path(__file__).parent, file_name="architecture_diagram.md"
@@ -22,13 +22,9 @@ def run_agent(image_path: str, api_key: str | None = None):
 
         toolkit = get_toolkit()
 
-        agent_llm = LLM.call_gemini_model(
-            model_name="gemini-2.5-flash",
-            temperature=0,
-            api_key=api_key,
-        )
+        agent_llm = LLM.call_gemini_model(model_name=MODELS.flash.value)
         agent = create_tool_calling_agent(agent_llm, toolkit, prompt)
-        agent_executor = AgentExecutor(agent=agent, tools=toolkit, verbose=True)
+        agent_executor = AgentExecutor(agent=agent, tools=toolkit, verbose=debug_mode)
 
         response = agent_executor.invoke(
             {
@@ -38,7 +34,8 @@ def run_agent(image_path: str, api_key: str | None = None):
                     1. First, analyze the architecture in the path diagram: {image_path}.
                     2. Based on the analysis, generate a complete threat report using the STRIDE methodology.
                     3. Next, create a remediation report detailing the mitigations for each vulnerability found.
-                    4. Finally, generate a new image diagram that incorporates all the proposed remediations.
+                    4. Finally, generate a new image Mermaid code that incorporates all the proposed remediations.
+                    5. Returns everything in portuguese (pt-BR)
                     """
             }
         )

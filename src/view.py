@@ -22,6 +22,7 @@ with st.sidebar:
         help="Insira sua chave de API do Gemini para autenticação. Você pode obter uma chave de API no console do Google Cloud.",
         value=os.getenv("GEMINI_API_KEY"),
     )
+    debug_mode = st.checkbox("Modo de depuração", value=True)
 
 uploaded_file = st.file_uploader(
     "Escolha a imagem da arquitetura...", type=["png", "jpg", "jpeg"]
@@ -52,7 +53,9 @@ if uploaded_file is not None:
             "Analisando a imagem e procurando vulnerabilidades... Por favor, aguarde. Isso pode levar alguns minutos."
         ):
             file_path = save_uploaded_file(uploaded_file)
-            report = run_agent(file_path, api_key=gemini_key_value)
+            if gemini_key_value:
+                os.environ["GEMINI_API_KEY"] = gemini_key_value
+            report = run_agent(file_path, debug_mode=debug_mode)
 
             if report:
                 st.divider()

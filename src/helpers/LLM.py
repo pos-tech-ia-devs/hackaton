@@ -2,8 +2,15 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 import os
 from dotenv import load_dotenv
+from enum import Enum
+
 
 load_dotenv()
+
+
+class MODELS(Enum):
+    pro = "gemini-2.5-pro"
+    flash = "gemini-2.5-flash"
 
 
 class LLM:

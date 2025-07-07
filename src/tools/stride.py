@@ -1,6 +1,6 @@
 from langchain_community.tools import tool
 from langchain_core.messages import HumanMessage, SystemMessage
-from src.helpers.LLM import LLM
+from src.helpers.LLM import LLM, MODELS
 from src.helpers.get_prompt import get_prompt
 from pathlib import Path
 
@@ -37,6 +37,6 @@ def stride(architecture_json: str):
         HumanMessage(content=architecture_json),
     ]
 
-    model = LLM.call_gemini_model("gemini-2.5-pro")
+    model = LLM.call_gemini_model(MODELS.pro.value, temperature=0.3)
     response = model.invoke(messages)
     return response

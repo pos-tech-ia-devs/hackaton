@@ -1,6 +1,6 @@
 from PIL import Image
 from langchain_community.tools import tool
-from src.helpers.LLM import LLM
+from src.helpers.LLM import LLM, MODELS
 from src.helpers.format_json import format_json
 from src.helpers.get_prompt import get_prompt
 from src.helpers.convert_base64_image import convert_base64_image
@@ -27,7 +27,7 @@ def analyze_image(image_path: str) -> str:
         return f"Error: Could not open or process the image. Details: {e}"
 
     image_uri = convert_base64_image(img)
-    model = LLM.call_gemini_model("gemini-2.5-pro")
+    model = LLM.call_gemini_model(MODELS.pro.value)
 
     prompt = get_prompt(
         current_path=Path(__file__).parent, file_name="analyze_image.md"

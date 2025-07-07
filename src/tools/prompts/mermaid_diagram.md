@@ -136,6 +136,3 @@ To ensure accuracy, you must follow this internal thought process step-by-step b
 <instruction>Do NOT include any text, explanations, or apologies outside of the code block.</instruction>
 <instruction>Ensure the code is clean, well-formatted, and ready to be rendered.</instruction>
 </output_specification>
-
-<user_task>
-</user_task>
