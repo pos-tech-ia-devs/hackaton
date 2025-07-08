@@ -1,0 +1,34 @@
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
+import os
+from dotenv import load_dotenv
+from enum import Enum
+
+
+load_dotenv()
+
+
+class MODELS(Enum):
+    pro = "gemini-2.5-pro"
+    flash = "gemini-2.5-flash"
+
+
+class LLM:
+    @staticmethod
+    def call_gemini_model(model_name, temperature=0, api_key=None):
+        gemini_api_key = api_key or os.getenv("GEMINI_API_KEY")
+        model = ChatGoogleGenerativeAI(
+            model=model_name,
+            google_api_key=gemini_api_key,
+            temperature=temperature,
+        )
+        return model
+
+    @staticmethod
+    def call_open_ai_model(temperature=0.5):
+        model = ChatOpenAI(
+            model_name=os.getenv("OPENAI_MODEL"),
+            api_key=os.getenv("OPENAI_API_KEY"),
+            temperature=temperature,
+        )
+        return model
