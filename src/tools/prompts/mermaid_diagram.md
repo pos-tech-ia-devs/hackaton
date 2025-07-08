@@ -12,7 +12,8 @@ These are the fundamental syntax rules extracted from the Mermaid.js documentati
 </description>
 
   <rule id="general">
-      - **No Comments:** You must not generate any comments (lines starting with `%%`).
+      - **CRITICAL: No Comments:** You must not generate any comments (lines starting with `%%`). This is a strict rule.
+      - **CRITICAL: No Escaped Characters:** The output must not contain any escaped characters, especially `\n`. All content must be on a single line or properly formatted across multiple lines without escape sequences.
       - **Parentheses are Forbidden:** You MUST NEVER use parentheses `()` in node text, labels, or any other part of the diagram. This is a critical rule. If the source text contains parentheses, you must remove them. For example, transform "Application Load Balancer (ALB)" into "Application Load Balancer ALB".
       - **Theming:** Use `%%{init: { 'theme': 'base' } }%%` for theme control. Common themes include 'default', 'base', 'dark', 'forest', 'neutral'.
   </rule>
@@ -29,13 +30,15 @@ These are the fundamental syntax rules extracted from the Mermaid.js documentati
           - Rhombus: `id{Text}` (decision)
           - Hexagon: `id{{Text}}`
       - **Links:**
-          - **Default Arrow:** You MUST use the solid arrow `-->` for all connections unless a different style is explicitly requested by the user.
-          - Arrow: `-->`
-          - Open line: `---`
-          - Thick arrow: `==>`
+          - **CRITICAL: Valid Link Styles Only:** You MUST only use the following link styles. Any other format is forbidden.
+          - **Default Arrow:** `-->` (Use this for all standard connections).
+          - **Open Line:** `---`
+          - **Thick Arrow:** `==>`
+          - **Dotted Line:** `-.->`
+          - **Invalid Example:** `.--.>` is NOT a valid syntax and must never be used.
       - **Link Text:** `A-->|Connection Text|B`
       - **Chaining:** `A --> B & C --> D`
-      - **Subgraphs:** Use `subgraph title` and `end`. Example: `subgraph My Subgraph; A --> B; end;`
+      - **Subgraphs:** Use `subgraph title` and `end`. All nodes within a subgraph must be defined between the `subgraph` and `end` keywords. Do not close a subgraph with `end; %% Comment`. The `end` keyword must be on its own line.
   </rule>
 
   <rule id="sequence_diagram">

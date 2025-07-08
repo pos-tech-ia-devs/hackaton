@@ -55,6 +55,12 @@ def generate_mermaid_diagram(fixed_report: str, architecture_diagram_path: str):
         codigo_extraido = match.group(1)
         content = codigo_extraido.strip()
 
+    # Post-processing to fix common syntax errors
+    content = re.sub(r"\.--\.>", "-->", content)
+    content = re.sub(r"-[.-]->", "-->", content)  # Fix for -.->
+    content = re.sub(r"end;", "end", content)  # Remove trailing semicolons on end
+    content = re.sub(r"%%.*", "", content)  # Remove comments
+
     try:
         graphbytes = content.encode("utf8")
         base64_bytes = base64.urlsafe_b64encode(graphbytes)
