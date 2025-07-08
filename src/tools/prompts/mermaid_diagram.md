@@ -12,9 +12,9 @@ These are the fundamental syntax rules extracted from the Mermaid.js documentati
 </description>
 
   <rule id="general">
-      - **Comments:** Don't use any comment`.
+      - **No Comments:** You must not generate any comments (lines starting with `%%`).
+      - **Parentheses are Forbidden:** You MUST NEVER use parentheses `()` in node text, labels, or any other part of the diagram. This is a critical rule. If the source text contains parentheses, you must remove them. For example, transform "Application Load Balancer (ALB)" into "Application Load Balancer ALB".
       - **Theming:** Use `%%{init: { 'theme': 'base' } }%%` for theme control. Common themes include 'default', 'base', 'dark', 'forest', 'neutral'.
-      - **Remove parentheses**: Remove any parentheses, for example: if contains: "Centralized Log Storage (Immutable)", replace it with "Centralized Log Storage - Immutable"
   </rule>
 
   <rule id="flowchart">
@@ -29,9 +29,9 @@ These are the fundamental syntax rules extracted from the Mermaid.js documentati
           - Rhombus: `id{Text}` (decision)
           - Hexagon: `id{{Text}}`
       - **Links:**
+          - **Default Arrow:** You MUST use the solid arrow `-->` for all connections unless a different style is explicitly requested by the user.
           - Arrow: `-->`
           - Open line: `---`
-          - Dotted line: `-.->`
           - Thick arrow: `==>`
       - **Link Text:** `A-->|Connection Text|B`
       - **Chaining:** `A --> B & C --> D`

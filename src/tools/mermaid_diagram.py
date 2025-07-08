@@ -48,7 +48,6 @@ def generate_mermaid_diagram(fixed_report: str, architecture_diagram_path: str):
     model = LLM.call_gemini_model(MODELS.flash.value)
     response = model.invoke(messages)
     content = response.content
-    print("content:", content)
 
     regex = r"```mermaid\s*\n(.*?)\n```"
     match = re.search(regex, content, re.DOTALL)
